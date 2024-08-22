@@ -281,10 +281,10 @@
 :where(.cstm-normal-loop-swiper.popular-entry-cards, .cstm-infinite-loop-swiper.popular-entry-cards).widget-entry-cards.ranking-visible .card-thumb::before{
   display:none;
 }
-.cstm-infinite-loop-swiper:has(.widget-entry-cards),
-.cstm-infinite-loop-swiper.widget-entry-cards,
-.cstm-normal-loop-swiper:has(.widget-entry-cards),
-.cstm-normal-loop-swiper.widget-entry-cards{
+.cstm-infinite-loop-swiper:has(.widget-entry-cards.swiper),
+.cstm-infinite-loop-swiper.widget-entry-cards.swiper,
+.cstm-normal-loop-swiper:has(.widget-entry-cards.swiper),
+.cstm-normal-loop-swiper.widget-entry-cards.swiper{
   opacity:0;
 }
 
