@@ -281,15 +281,17 @@
 :where(.cstm-normal-loop-swiper.popular-entry-cards, .cstm-infinite-loop-swiper.popular-entry-cards).widget-entry-cards.ranking-visible .card-thumb::before{
   display:none;
 }
-.cstm-infinite-loop-swiper,
-.cstm-normal-loop-swiper{
+.cstm-infinite-loop-swiper:has(.widget-entry-cards),
+.cstm-infinite-loop-swiper.widget-entry-cards,
+.cstm-normal-loop-swiper:has(.widget-entry-cards),
+.cstm-normal-loop-swiper.widget-entry-cards{
   opacity:0;
 }
 
 .cstm-infinite-loop-swiper:has(.is-init-after-post),
-.cstm-infinite-loop-swiper.is-init-after-post,
+.cstm-infinite-loop-swiper.cstm-infinite-loop.swiper.is-init-after-post,
 .cstm-normal-loop-swiper:has(.is-init-after-post),
-.cstm-normal-loop-swiper.is-init-after-post{
+.cstm-normal-loop-swiper.cstm-normal-loop.swiper.is-init-after-post{
   animation-name:postInit-fade-In;
   animation-fill-mode:forwards;
   animation-duration:1.5s;
