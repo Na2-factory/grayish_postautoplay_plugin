@@ -2,7 +2,7 @@
 /*
 Plugin Name: grayish Post Autoplay Plugin
 Description: grayish(Cocoonスキンなしも使用可能) 新着記事・人気記事・ナビカード　簡易オートプレイ プラグイン
-Version: 1.0.2
+Version: 1.0.3
 Author: Na2factory
 Author URI: https://na2-factory.com/
 License: GNU General Public License
@@ -21,7 +21,7 @@ add_action('after_setup_theme', 'gry_post_autoplay_setup', 20);
 function gry_post_autoplay_setup()
 {
 	if (!defined('GRY_POST_AUTOPLAY_PLUGIN_VERSION')) {
-		define('GRY_POST_AUTOPLAY_PLUGIN_VERSION', '1.0.2');
+		define('GRY_POST_AUTOPLAY_PLUGIN_VERSION', '1.0.3');
 	}
 
 	if (!defined('GRY_POST_AUTOPLAY_PLUGIN_PATH')) {
