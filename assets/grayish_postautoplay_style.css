@@ -5,12 +5,6 @@
   --card_Width_PC:320px;
   --card_Width_SP:220px;
 }
-
-.cstm-infinite-loop{
-  display:flex;
-  flex-direction:row;
-  position:relative;
-}
 :where(.front-top-page.skin-grayish, .column1, .content-top, .content-bottom) .cstm-infinite-loop-swiper .cstm-infinite-loop.swiper,
 :where(.front-top-page.skin-grayish, .column1, .content-top, .content-bottom) .cstm-infinite-loop-swiper.cstm-infinite-loop.swiper{
   overflow:visible;
@@ -40,6 +34,7 @@
 .cstm-infinite-loop-swiper .cstm-infinite-loop .widget-entry-card-link,
 .cstm-infinite-loop-swiper.cstm-infinite-loop .widget-entry-card-link{
   max-width:var(--card_Width_PC);
+  height:auto;
 }
 
 :is(.cstm-infinite-loop, .cstm-normal-loop) .new-entry-card.widget-entry-card .cat-label,
