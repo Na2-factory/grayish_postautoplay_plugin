@@ -2,7 +2,7 @@
 /*
 Plugin Name: grayish Post Autoplay Plugin
 Description: grayish(Cocoonスキンなしも使用可能) 新着記事・人気記事・ナビカード　簡易オートプレイ プラグイン
-Version: 1.0.5
+Version: 1.0.6
 Author: Na2factory
 Author URI: https://na2-factory.com/
 License: GNU General Public License
@@ -21,7 +21,7 @@ add_action('after_setup_theme', 'gry_post_autoplay_setup', 20);
 function gry_post_autoplay_setup()
 {
 	if (!defined('GRY_POST_AUTOPLAY_PLUGIN_VERSION')) {
-		define('GRY_POST_AUTOPLAY_PLUGIN_VERSION', '1.0.5');
+		define('GRY_POST_AUTOPLAY_PLUGIN_VERSION', '1.0.6');
 	}
 
 	if (!defined('GRY_POST_AUTOPLAY_PLUGIN_PATH')) {
@@ -43,7 +43,6 @@ function gry_post_autoplay_setup()
 	// 	add_filter('is_popular_entry_card_category_label_visible', '__return_true');
 	// }
 
-	// Swiper
 	add_filter("cocoon_part__tmp/footer-javascript", 'gry_post_autoplay_add_swiper_script');
 }
 
@@ -58,13 +57,13 @@ function gry_post_autoplay_enqueue_scripts()
 	);
 
 	/* JS */
-	wp_enqueue_script(
-		'grayish_postautoplay_script',
-		GRY_POST_AUTOPLAY_PLUGIN_URL . 'assets/grayish_postautoplay_script.js',
-		array(),
-		GRY_POST_AUTOPLAY_PLUGIN_VERSION,
-		true
-	);
+	// wp_enqueue_script(
+	// 	'grayish_postautoplay_script',
+	// 	GRY_POST_AUTOPLAY_PLUGIN_URL . 'assets/grayish_postautoplay_script.js',
+	// 	array(),
+	// 	GRY_POST_AUTOPLAY_PLUGIN_VERSION,
+	// 	true
+	// );
 }
 
 function gry_post_autoplay_add_swiper_script($content)

@@ -5,6 +5,9 @@
   --card_Width_PC:320px;
   --card_Width_SP:220px;
 }
+body:not(.skin-grayish) .container{
+  overflow-x:clip;
+}
 :where(.front-top-page.skin-grayish, .column1, .content-top, .content-bottom) .cstm-infinite-loop-swiper .cstm-infinite-loop.swiper,
 :where(.front-top-page.skin-grayish, .column1, .content-top, .content-bottom) .cstm-infinite-loop-swiper.cstm-infinite-loop.swiper{
   overflow:visible;
