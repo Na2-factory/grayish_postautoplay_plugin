@@ -2,7 +2,7 @@
 /*
 Plugin Name: grayish Post Autoplay Plugin
 Description: grayish(Cocoonスキンなしも使用可能) 新着記事・人気記事・ナビカード　簡易オートプレイ プラグイン
-Version: 1.0.6
+Version: 1.0.5
 Author: Na2factory
 Author URI: https://na2-factory.com/
 License: GNU General Public License
@@ -21,7 +21,7 @@ add_action('after_setup_theme', 'gry_post_autoplay_setup', 20);
 function gry_post_autoplay_setup()
 {
 	if (!defined('GRY_POST_AUTOPLAY_PLUGIN_VERSION')) {
-		define('GRY_POST_AUTOPLAY_PLUGIN_VERSION', '1.0.6');
+		define('GRY_POST_AUTOPLAY_PLUGIN_VERSION', '1.0.5');
 	}
 
 	if (!defined('GRY_POST_AUTOPLAY_PLUGIN_PATH')) {
@@ -33,6 +33,7 @@ function gry_post_autoplay_setup()
 
 	add_action('wp_enqueue_scripts', 'gry_post_autoplay_enqueue_scripts');
 
+	// add_action('wp_head', 'add_custom_js');
 	// カテゴリラベルの表示はユーザーに任せる
 	// 新着記事ウィジェット（ショートコード）カテゴリーラベルの表示
 	// if (!has_filter('is_new_entry_card_category_label_visible', '__return_true')) {
@@ -55,15 +56,6 @@ function gry_post_autoplay_enqueue_scripts()
 		array(),
 		GRY_POST_AUTOPLAY_PLUGIN_VERSION
 	);
-
-	/* JS */
-	// wp_enqueue_script(
-	// 	'grayish_postautoplay_script',
-	// 	GRY_POST_AUTOPLAY_PLUGIN_URL . 'assets/grayish_postautoplay_script.js',
-	// 	array(),
-	// 	GRY_POST_AUTOPLAY_PLUGIN_VERSION,
-	// 	true
-	// );
 }
 
 function gry_post_autoplay_add_swiper_script($content)
