@@ -12,6 +12,7 @@
 .cstm-infinite-loop-swiper .cstm-infinite-loop.swiper-free-mode>.swiper-wrapper,
 .cstm-infinite-loop-swiper.cstm-infinite-loop.swiper-free-mode>.swiper-wrapper{
   transition-timing-function:linear;
+  margin-top:8px;
 }
 
 .cstm-infinite-loop-swiper :where(.is-list-horizontal, .cstm-infinite-loop) .swiper-button-next,
@@ -150,6 +151,7 @@
   width:100%;
   grid-column:1/4;
   justify-self:center;
+  margin-top:8px;
 }
 
 .cstm-normal-loop-swiper .cstm-normal-loop .swiper-button-next,

@@ -2,7 +2,7 @@
 /*
 Plugin Name: grayish Post Autoplay Plugin
 Description: grayish(Cocoonスキンなしも使用可能) 新着記事・人気記事・ナビカード　簡易オートプレイ プラグイン
-Version: 1.0.3
+Version: 1.0.4
 Author: Na2factory
 Author URI: https://na2-factory.com/
 License: GNU General Public License
@@ -21,7 +21,7 @@ add_action('after_setup_theme', 'gry_post_autoplay_setup', 20);
 function gry_post_autoplay_setup()
 {
 	if (!defined('GRY_POST_AUTOPLAY_PLUGIN_VERSION')) {
-		define('GRY_POST_AUTOPLAY_PLUGIN_VERSION', '1.0.3');
+		define('GRY_POST_AUTOPLAY_PLUGIN_VERSION', '1.0.4');
 	}
 
 	if (!defined('GRY_POST_AUTOPLAY_PLUGIN_PATH')) {
@@ -33,14 +33,15 @@ function gry_post_autoplay_setup()
 
 	add_action('wp_enqueue_scripts', 'gry_post_autoplay_enqueue_scripts');
 
+	// カテゴリラベルの表示はユーザーに任せる
 	// 新着記事ウィジェット（ショートコード）カテゴリーラベルの表示
-	if (!has_filter('is_new_entry_card_category_label_visible', '__return_true')) {
-		add_filter('is_new_entry_card_category_label_visible', '__return_true');
-	}
+	// if (!has_filter('is_new_entry_card_category_label_visible', '__return_true')) {
+	// 	add_filter('is_new_entry_card_category_label_visible', '__return_true');
+	// }
 	// 人気記事ウィジェット（ショートコード）カテゴリーラベルの表示
-	if (!has_filter('is_popular_entry_card_category_label_visible', '__return_true')) {
-		add_filter('is_popular_entry_card_category_label_visible', '__return_true');
-	}
+	// if (!has_filter('is_popular_entry_card_category_label_visible', '__return_true')) {
+	// 	add_filter('is_popular_entry_card_category_label_visible', '__return_true');
+	// }
 
 	// Swiper
 	add_filter("cocoon_part__tmp/footer-javascript", 'gry_post_autoplay_add_swiper_script');
@@ -102,17 +103,22 @@ const cstm_common_swiper_params = {
 
 const infinite_loop_swiper_params = {
 	speed: 8000,
-	autoplay: {
-		delay: 0,
-		disableOnInteraction: false,
-	},
+	autoplay: false, 
 }
+// Normal type
+const normal_swiper_params = {
+	speed: 2000,
+	centeredSlides: true,
+	autoplay: false, 
+	watchSlidesProgress: true,
+}
+
 
 // for init infinite_loop_swiper
 const initInfiniteSwiper = (postContainerSelector) => {
     const Post_Container = document.querySelectorAll(postContainerSelector);
     Post_Container.forEach(container => {
-        new Swiper(container, {
+        const CstmSwiper = new Swiper(container, {
             ...cstm_common_swiper_params,
             ...infinite_loop_swiper_params,
             on: {
@@ -124,9 +130,31 @@ const initInfiniteSwiper = (postContainerSelector) => {
                 },
             }
         });
+
+        const ObserverAutoplaySwiper = () => {
+            const callback = (entries, obs) => {
+                if (entries[0].isIntersecting) {
+                    CstmSwiper.params.autoplay = {
+                        delay: 0,
+                        disableOnInteraction: false,
+                    };
+                    CstmSwiper.autoplay.start(); // autoplayを開始する
+                } else {
+                    CstmSwiper.autoplay.stop(); // autoplayを停止する
+                }
+            };
+            const options = {
+                root: null,
+                rootMargin: "0%",
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver(callback, options);
+            observer.observe(container);
+        };
+        ObserverAutoplaySwiper();
     });
 };
-
 // for Cocoon block
 const cstmInfiniteSwiper_blks = Array.from(document.querySelectorAll('.cstm-infinite-loop-swiper.block-box')).filter(element => {
 	return element.querySelector(':scope > .is-list-horizontal.swiper') !== null;
@@ -151,44 +179,57 @@ if (cstmInfiniteSwiper_shtcodes.length > 0) {
 	initInfiniteSwiper('.cstm-infinite-loop-swiper.cstm-infinite-loop.swiper');
 }
 
-// Normal type
-const normal_swiper_params = {
-	speed: 2000,
-	centeredSlides: true,
-	autoplay: {
-		delay: 4000,
-		disableOnInteraction: false,
-		waitForTransition: false,
-	},
-	watchSlidesProgress: true,
-}
-
-// for init Normal_swiper
 const initNormalSwiper = (containerSelector, btnNextSelector, btnPrevSelector, paginationSelector) => {
     const btnNext = document.querySelectorAll(btnNextSelector);
     const btnPrev = document.querySelectorAll(btnPrevSelector);
     const Post_Container = document.querySelectorAll(containerSelector);
 
-    new Swiper(containerSelector, {
-        ...cstm_common_swiper_params,
-        ...normal_swiper_params,
-        pagination: {
-            el: paginationSelector,
-            type: 'progressbar'
-        },
-        navigation: {
-            prevEl: btnPrevSelector,
-            nextEl: btnNextSelector,
-        },
-        on: {
-            afterInit: (swiper) => {
-                btnNext.forEach(btn => btn.setAttribute('data-btnon', 'true'));
-                btnPrev.forEach(btn => btn.setAttribute('data-btnon', 'true'));
-                Post_Container.forEach(container => {
-                    container.classList.add('is-init-after-post');
-                });
+    Post_Container.forEach(container => {
+        const NormalCstmSwiper = new Swiper(container, {
+            ...cstm_common_swiper_params,
+            ...normal_swiper_params,
+            pagination: {
+                el: paginationSelector,
+                type: 'progressbar'
             },
-        }
+            navigation: {
+                prevEl: btnPrevSelector,
+                nextEl: btnNextSelector,
+            },
+            on: {
+                afterInit: (swiper) => {
+                    btnNext.forEach(btn => btn.setAttribute('data-btnon', 'true'));
+                    btnPrev.forEach(btn => btn.setAttribute('data-btnon', 'true'));
+                    container.classList.add('is-init-after-post');
+                },
+            }
+        });
+
+        const NormalObserverAutoplaySwiper = () => {
+            const callback = (entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        NormalCstmSwiper.params.autoplay = {
+                            delay: 4000,
+                            disableOnInteraction: false,
+                            waitForTransition: false,
+                        };
+                        NormalCstmSwiper.autoplay.start(); // autoplayを開始する
+                    } else {
+                        NormalCstmSwiper.autoplay.stop(); // autoplayを停止する
+                    }
+                });
+            };
+            const options = {
+                root: null,
+                rootMargin: "0%",
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver(callback, options);
+            observer.observe(container);
+        };
+        NormalObserverAutoplaySwiper();
     });
 };
 // for Cocoon block 
