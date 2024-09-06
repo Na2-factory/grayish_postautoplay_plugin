@@ -33,7 +33,6 @@ function gry_post_autoplay_setup()
 
 	add_action('wp_enqueue_scripts', 'gry_post_autoplay_enqueue_scripts');
 
-	// add_action('wp_head', 'add_custom_js');
 	// カテゴリラベルの表示はユーザーに任せる
 	// 新着記事ウィジェット（ショートコード）カテゴリーラベルの表示
 	// if (!has_filter('is_new_entry_card_category_label_visible', '__return_true')) {
@@ -214,7 +213,7 @@ const initNormalSwiper = (containerSelector, btnNextSelector, btnPrevSelector, p
             const options = {
                 root: null,
 								// 少し上から発火させる
-                rootMargin: "40% 0px",
+                rootMargin: "20% 0px",
                 threshold: 0
             };
 
