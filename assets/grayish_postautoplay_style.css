@@ -99,7 +99,7 @@ body:not(.skin-grayish) .container{
 :is(.cstm-infinite-loop, .cstm-normal-loop) .new-entry-card-update-date.widget-entry-card-update-date.post-update::before,
 :is(.cstm-infinite-loop, .cstm-normal-loop) .popular-entry-card-post-date.widget-entry-card-post-date.post-date::before,
 :is(.cstm-infinite-loop, .cstm-normal-loop) .popular-entry-card-update-date.widget-entry-card-update-date.post-update::before{
-  display:inline-block;
+  display:none;
   content:"\f017";
   background-repeat:no-repeat;
   background-size:cover;
