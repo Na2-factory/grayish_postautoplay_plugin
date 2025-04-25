@@ -2,7 +2,7 @@
 /*
 Plugin Name: grayish Post Autoplay Plugin
 Description: grayish(Cocoonスキンなしも使用可能) 新着記事・人気記事・ナビカード　簡易オートプレイ プラグイン
-Version: 1.0.7
+Version: 2.0.0
 Author: Na2factory
 Author URI: https://na2-factory.com/
 License: GNU General Public License
@@ -21,7 +21,7 @@ add_action('after_setup_theme', 'gry_post_autoplay_setup', 20);
 function gry_post_autoplay_setup()
 {
 	if (!defined('GRY_POST_AUTOPLAY_PLUGIN_VERSION')) {
-		define('GRY_POST_AUTOPLAY_PLUGIN_VERSION', '1.0.7');
+		define('GRY_POST_AUTOPLAY_PLUGIN_VERSION', '2.0.0');
 	}
 
 	if (!defined('GRY_POST_AUTOPLAY_PLUGIN_PATH')) {
@@ -77,6 +77,8 @@ const cstmSwiperShtcode_classChange = (target, swiper_name) => {
 	return ;
 };
 
+// for Swiper11
+
 // Common Swiper Params
 const cstm_common_swiper_params = {
 	effect: 'slide',
@@ -108,9 +110,22 @@ const normal_swiper_params = {
 const initInfiniteSwiper = (postContainerSelector) => {
     const Post_Container = document.querySelectorAll(postContainerSelector);
     Post_Container.forEach(container => {
+				// 💡 スライドをすべて複製（2倍化）
+				const wrapper = container.querySelector('.swiper-wrapper');
+				if (wrapper) {
+					const slides = Array.from(wrapper.children);
+					slides.forEach(slide => {
+						const clone = slide.cloneNode(true);
+						wrapper.appendChild(clone);
+					});
+				}
         const CstmSwiper = new Swiper(container, {
             ...cstm_common_swiper_params,
             ...infinite_loop_swiper_params,
+						autoplay: {
+							delay: 0,
+							disableOnInteraction: false,
+						},
             on: {
                 afterInit: (swiper) => {
                     container.classList.add('is-init-after-post');
@@ -124,10 +139,6 @@ const initInfiniteSwiper = (postContainerSelector) => {
         const ObserverAutoplaySwiper = () => {
             const callback = (entries, obs) => {
                 if (entries[0].isIntersecting) {
-                    CstmSwiper.params.autoplay = {
-                        delay: 0,
-                        disableOnInteraction: false,
-                    };
                     CstmSwiper.autoplay.start(); // autoplayを開始する
                 } else {
                     CstmSwiper.autoplay.stop(); // autoplayを停止する
@@ -175,6 +186,16 @@ const initNormalSwiper = (containerSelector, btnNextSelector, btnPrevSelector, p
     const Post_Container = document.querySelectorAll(containerSelector);
 
     Post_Container.forEach(container => {
+			//  1. スライド複製（初期化前に）
+				const wrapper = container.querySelector('.swiper-wrapper');
+				if (wrapper) {
+					const slides = Array.from(wrapper.children);
+					slides.forEach(slide => {
+						const clone = slide.cloneNode(true);
+						wrapper.appendChild(clone);
+					});
+				}
+
         const NormalCstmSwiper = new Swiper(container, {
             ...cstm_common_swiper_params,
             ...normal_swiper_params,
@@ -186,6 +207,11 @@ const initNormalSwiper = (containerSelector, btnNextSelector, btnPrevSelector, p
                 prevEl: btnPrevSelector,
                 nextEl: btnNextSelector,
             },
+						autoplay: {
+							delay: 4000,
+							disableOnInteraction: false,
+							waitForTransition: false,
+						},
             on: {
                 afterInit: (swiper) => {
                     btnNext.forEach(btn => btn.setAttribute('data-btnon', 'true'));
@@ -199,11 +225,6 @@ const initNormalSwiper = (containerSelector, btnNextSelector, btnPrevSelector, p
             const callback = (entries, obs) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        NormalCstmSwiper.params.autoplay = {
-                            delay: 4000,
-                            disableOnInteraction: false,
-                            waitForTransition: false,
-                        };
                         NormalCstmSwiper.autoplay.start(); // autoplayを開始する
                     } else {
                         NormalCstmSwiper.autoplay.stop(); // autoplayを停止する
