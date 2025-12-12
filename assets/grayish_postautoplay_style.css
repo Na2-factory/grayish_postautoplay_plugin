@@ -318,7 +318,9 @@ body:not(.skin-grayish) .container {
   }
 }
 
-.widget-entry-card-info {
+/* Cocoon-2.8.8.3でHTMLが変更になっていることの対応 */
+.cstm-infinite-loop-swiper .widget-entry-card-info,
+.cstm-normal-loop-swiper .widget-entry-card-info {
   justify-content: flex-end;
 }
 
